@@ -1,6 +1,7 @@
 # danhealy-lifx
 
-This is the script I use to control my LIFX lights at home.
+This is the script I use to control my LIFX lights at home.  Use this as an
+example or a starting point for designing your own custom script.
 
 It uses the [lightsd daemon](https://github.com/lopter/lightsd) running locally
 on my Macbook to communicate with the 6 LIFX Color 1000 lights I have.  
@@ -15,8 +16,7 @@ I've written a special method for these which takes a hue value assigned to the
 whole lamp and spreads it across the three lights with a variance, and also it
 will blend them at slightly different speeds.
 
-The code was hastily written but well documented, feel free to fork and
-customize for your own light configurations.  Enjoy!
+The code was hastily written but well documented.  Enjoy!
 
 # Installation (Mac)
 First ensure you have ruby 2+ installed (I use [rvm](https://rvm.io/)) with the
