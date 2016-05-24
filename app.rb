@@ -49,14 +49,18 @@ def get_light_state(target = "*")
   ap x
 end
 
+def power_on
+  _call "power_on", "*"
+end
+
 # Sets the color of a specific target.  Target "*" to apply to all.
 def set_light(target = "*", h = 1.0, duration = 2)
-  puts "#{target} -> #{h} in #{duration}"
+  puts "  Setting light #{"%20s" % target} -> Hue #{h} in #{duration} seconds"
   _call "set_light_from_hsbk", target, h, $saturation, $brightness, $kelvin, (duration*1000).round
 end
 
 # Unused waveform example
-def set_waveform(target = "*", waveform = :saw, hue, duration, speed)
+def set_waveform(target = "*", waveform = "SAW", hue, duration, speed)
   _call "set_waveform", target, waveform, hue, $saturation, $brightness, $kelvin, duration, speed, 0.5, true
 end
 
@@ -64,7 +68,7 @@ end
 
 # Method to change the color of my three lights in my tree lamp
 # Basically it spreads the hue value passed in across the "internal_variance"
-# value, and it can give them slightly different blend times
+# value for the three lights, and it can give them different blend times
 def set_tree(hue, duration, sleepy = 0.0, variance = 10)
   # These must be the exact light labels
   labels = ["Tree Short", "Tree Mid", "Tree Long"]
@@ -84,7 +88,7 @@ end
 # and the tree lamp is set with the special set_tree method above
 # Change this to fit your configuration
 def set_all(hue, duration, sleepy, variance)
-  puts "set_all to #{hue} (#{duration}, #{sleepy}, #{variance})"
+  puts "#{Time.now}: Setting all lights.  Base hue #{hue}, (duration #{duration}, tree sleep #{sleepy}, variance #{variance})"
   set_light("UFO", hue, ((4*duration) / 5.0)) # Get there a little faster
   ["NightstandL", "NightstandR"].each do |label|
     set_light(label, vary_hue(hue, variance), duration)
@@ -94,6 +98,7 @@ def set_all(hue, duration, sleepy, variance)
 end
 
 # Print out all light info to start
+power_on
 get_light_state
 
 ################################################################################
@@ -143,5 +148,6 @@ loop do
     direction = direction * -1
   end
 
+  # Step the hue value
   hue = wrap_hue(hue + direction*step_variance)
 end
